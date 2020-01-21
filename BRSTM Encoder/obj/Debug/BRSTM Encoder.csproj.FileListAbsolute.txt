@@ -1,0 +1,22 @@
+C:\Users\skawo\source\repos\BRSTM Encoder\BRSTM Encoder\bin\Debug\BRSTM Encoder.exe.config
+C:\Users\skawo\source\repos\BRSTM Encoder\BRSTM Encoder\bin\Debug\BRSTM Encoder.exe
+C:\Users\skawo\source\repos\BRSTM Encoder\BRSTM Encoder\bin\Debug\BRSTM Encoder.pdb
+C:\Users\skawo\source\repos\BRSTM Encoder\BRSTM Encoder\obj\Debug\BRSTM_Encoder.Form1.resources
+C:\Users\skawo\source\repos\BRSTM Encoder\BRSTM Encoder\obj\Debug\BRSTM_Encoder.Properties.Resources.resources
+C:\Users\skawo\source\repos\BRSTM Encoder\BRSTM Encoder\obj\Debug\BRSTM Encoder.csproj.GenerateResource.cache
+C:\Users\skawo\source\repos\BRSTM Encoder\BRSTM Encoder\obj\Debug\BRSTM Encoder.csproj.CoreCompileInputs.cache
+C:\Users\skawo\source\repos\BRSTM Encoder\BRSTM Encoder\obj\Debug\BRSTM Encoder.exe
+C:\Users\skawo\source\repos\BRSTM Encoder\BRSTM Encoder\obj\Debug\BRSTM Encoder.pdb
+C:\Users\skawo\source\repos\BRSTM Encoder\BRSTM Encoder\bin\Debug\VGAudio.dll
+C:\Users\skawo\source\repos\BRSTM Encoder\BRSTM Encoder\obj\Debug\BRSTM Encoder.csproj.CopyComplete
+D:\GIT\brstm-encoder\BRSTM Encoder\bin\Debug\BRSTM Encoder.exe.config
+D:\GIT\brstm-encoder\BRSTM Encoder\bin\Debug\BRSTM Encoder.exe
+D:\GIT\brstm-encoder\BRSTM Encoder\bin\Debug\BRSTM Encoder.pdb
+D:\GIT\brstm-encoder\BRSTM Encoder\obj\Debug\BRSTM Encoder.csprojAssemblyReference.cache
+D:\GIT\brstm-encoder\BRSTM Encoder\obj\Debug\BRSTM_Encoder.Form1.resources
+D:\GIT\brstm-encoder\BRSTM Encoder\obj\Debug\BRSTM_Encoder.Properties.Resources.resources
+D:\GIT\brstm-encoder\BRSTM Encoder\obj\Debug\BRSTM Encoder.csproj.GenerateResource.cache
+D:\GIT\brstm-encoder\BRSTM Encoder\obj\Debug\BRSTM Encoder.csproj.CoreCompileInputs.cache
+D:\GIT\brstm-encoder\BRSTM Encoder\obj\Debug\BRSTM Encoder.csproj.CopyComplete
+D:\GIT\brstm-encoder\BRSTM Encoder\obj\Debug\BRSTM Encoder.exe
+D:\GIT\brstm-encoder\BRSTM Encoder\obj\Debug\BRSTM Encoder.pdb
