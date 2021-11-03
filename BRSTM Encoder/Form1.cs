@@ -35,10 +35,7 @@ namespace BRSTM_Encoder
             {
                 try
                 {
-                    byte[] OpenedWAVFile = File.ReadAllBytes(Dialog.FileName);
-
-                    VGAudio.Containers.Wave.WaveReader Reader = new VGAudio.Containers.Wave.WaveReader();
-                    Audio = Reader.ReadWithConfig(OpenedWAVFile);
+                    Load(Dialog.FileName);
 
                     Label_Bitrate.Text = "Bitrate: " + Audio.AudioFormat.SampleRate.ToString();
                     Label_Channels.Text = "Channels detected: " + Audio.AudioFormat.ChannelCount.ToString();
@@ -56,6 +53,30 @@ namespace BRSTM_Encoder
                     MessageBox.Show(ex.Message);
                 }
             }
+        }
+
+        public void Load(string FileName)
+        {
+            byte[] OpenedWAVFile = File.ReadAllBytes(FileName);
+
+            VGAudio.Containers.Wave.WaveReader Reader = new VGAudio.Containers.Wave.WaveReader();
+            Audio = Reader.ReadWithConfig(OpenedWAVFile);
+        }
+
+        public void Convert(int LoopSt, int LoopEn, bool Loop, string Out)
+        {
+            Audio.AudioFormat.LoopStart = LoopSt;
+            Audio.AudioFormat.LoopEnd = LoopEn == 0 ? Audio.AudioFormat.SampleCount : LoopEn;
+            Audio.AudioFormat.Looping = Loop;
+
+            VGAudio.Containers.NintendoWare.BrstmWriter Writer = new VGAudio.Containers.NintendoWare.BrstmWriter();
+
+            if (File.Exists(Out))
+                File.Delete(Out);
+
+            FileStream Stream = new FileStream(Out, FileMode.CreateNew);
+            Writer.WriteToStream(Audio.Audio, Stream, Audio.Configuration);
+            Stream.Close();
         }
 
         private void Button_Save_Click(object sender, EventArgs e)
@@ -78,18 +99,7 @@ namespace BRSTM_Encoder
                 Label_Status.Text = "Saving BRSTM...";
                 Label_Status.Update();
 
-                Audio.AudioFormat.LoopStart = (int)NumUpDown_LoopStart.Value;
-                Audio.AudioFormat.LoopEnd = (int)NumUpDown_LoopEnd.Value == 0 ? Audio.AudioFormat.SampleCount : (int)NumUpDown_LoopEnd.Value;
-                Audio.AudioFormat.Looping = CheckBox_IsLooped.Checked;
-
-                VGAudio.Containers.NintendoWare.BrstmWriter Writer = new VGAudio.Containers.NintendoWare.BrstmWriter();
-
-                if (File.Exists(Dialog.FileName))
-                    File.Delete(Dialog.FileName);
-
-                FileStream Stream = new FileStream(Dialog.FileName, FileMode.CreateNew);
-                Writer.WriteToStream(Audio.Audio, Stream, Audio.Configuration);
-                Stream.Close();
+                Convert((int)NumUpDown_LoopStart.Value, (int)NumUpDown_LoopEnd.Value, CheckBox_IsLooped.Checked, Dialog.FileName);
 
                 Label_Status.Text = "Done!";
             }
