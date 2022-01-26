@@ -49,6 +49,13 @@ namespace BRSTM_Encoder
 
                     Console.WriteLine("");
                     Console.WriteLine($"Convert {args[0]} to {args[0].Replace(".wav", "")}_out.brstm");
+
+                    if (Loop && LoopEn != 0 && LoopSt > LoopEn)
+                    {
+                        Console.WriteLine("Loop start cannot be smaller than the loop end");
+                        return -1;
+                    }
+
                     f.Convert(LoopSt, LoopEn, Loop, $"{args[0].Replace(".wav", "")}_out.brstm");
                     Console.WriteLine("Done!");
                 }

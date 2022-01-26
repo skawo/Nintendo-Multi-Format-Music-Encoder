@@ -19,6 +19,6 @@ D:\GIT\brstm-encoder\BRSTM Encoder\obj\Debug\BRSTM Encoder.csproj.CoreCompileInp
 D:\GIT\brstm-encoder\BRSTM Encoder\obj\Debug\BRSTM Encoder.exe
 D:\GIT\brstm-encoder\BRSTM Encoder\obj\Debug\BRSTM Encoder.pdb
 D:\GIT\brstm-encoder\BRSTM Encoder\obj\Debug\BRSTM Encoder.csproj.SuggestedBindingRedirects.cache
-D:\GIT\brstm-encoder\BRSTM Encoder\obj\Debug\BRSTM Encoder.csproj.AssemblyReference.cache
 D:\GIT\brstm-encoder\BRSTM Encoder\bin\Debug\VGAudio.dll
 D:\GIT\brstm-encoder\BRSTM Encoder\bin\Debug\VGAudio.xml
+D:\GIT\brstm-encoder\BRSTM Encoder\obj\Debug\BRSTM Encoder.csproj.CopyComplete

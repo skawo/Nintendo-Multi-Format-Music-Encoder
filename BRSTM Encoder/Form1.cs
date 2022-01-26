@@ -65,12 +65,12 @@ namespace BRSTM_Encoder
 
         public void Convert(int LoopSt, int LoopEn, bool Loop, string Out)
         {
-            VGAudio.Containers.NintendoWare.BrstmWriter Writer = new VGAudio.Containers.NintendoWare.BrstmWriter();
-
             if (File.Exists(Out))
                 File.Delete(Out);
 
             FileStream Stream = new FileStream(Out, FileMode.CreateNew);
+            VGAudio.Containers.NintendoWare.BrstmWriter Writer = new VGAudio.Containers.NintendoWare.BrstmWriter();
+
             Writer.WriteToStream(Audio.AudioFormat.WithLoop(Loop, LoopSt, LoopEn == 0 ? Audio.AudioFormat.SampleCount : LoopEn), Stream, Audio.Configuration);
             Stream.Close();
         }
@@ -94,6 +94,12 @@ namespace BRSTM_Encoder
 
                 Label_Status.Text = "Saving BRSTM...";
                 Label_Status.Update();
+
+                if (CheckBox_IsLooped.Checked && (int)NumUpDown_LoopStart.Value > (int)NumUpDown_LoopEnd.Value)
+                {
+                    MessageBox.Show("Loop start cannot be smaller than the loop end");
+                    return;
+                }
 
                 Convert((int)NumUpDown_LoopStart.Value, (int)NumUpDown_LoopEnd.Value, CheckBox_IsLooped.Checked, Dialog.FileName);
 
