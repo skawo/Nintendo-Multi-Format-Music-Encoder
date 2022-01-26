@@ -35,7 +35,7 @@ namespace BRSTM_Encoder
             {
                 try
                 {
-                    Load(Dialog.FileName);
+                    LoadFile(Dialog.FileName);
 
                     Label_Bitrate.Text = "Bitrate: " + Audio.AudioFormat.SampleRate.ToString();
                     Label_Channels.Text = "Channels detected: " + Audio.AudioFormat.ChannelCount.ToString();
@@ -55,7 +55,7 @@ namespace BRSTM_Encoder
             }
         }
 
-        public void Load(string FileName)
+        public void LoadFile(string FileName)
         {
             byte[] OpenedWAVFile = File.ReadAllBytes(FileName);
 
@@ -65,17 +65,13 @@ namespace BRSTM_Encoder
 
         public void Convert(int LoopSt, int LoopEn, bool Loop, string Out)
         {
-            Audio.AudioFormat.LoopStart = LoopSt;
-            Audio.AudioFormat.LoopEnd = LoopEn == 0 ? Audio.AudioFormat.SampleCount : LoopEn;
-            Audio.AudioFormat.Looping = Loop;
-
             VGAudio.Containers.NintendoWare.BrstmWriter Writer = new VGAudio.Containers.NintendoWare.BrstmWriter();
 
             if (File.Exists(Out))
                 File.Delete(Out);
 
             FileStream Stream = new FileStream(Out, FileMode.CreateNew);
-            Writer.WriteToStream(Audio.Audio, Stream, Audio.Configuration);
+            Writer.WriteToStream(Audio.AudioFormat.WithLoop(Loop, LoopSt, LoopEn == 0 ? Audio.AudioFormat.SampleCount : LoopEn), Stream, Audio.Configuration);
             Stream.Close();
         }
 

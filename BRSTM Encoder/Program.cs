@@ -31,7 +31,7 @@ namespace BRSTM_Encoder
                 {
                     AttachConsole(ATTACH_PARENT_PROCESS);
                     Form1 f = new Form1();
-                    f.Load(args[0]);
+                    f.LoadFile(args[0]);
 
                     int LoopSt = 0;
                     int LoopEn = 0;
