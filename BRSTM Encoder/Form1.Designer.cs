@@ -183,7 +183,7 @@
             // 
             this.Label_OutType.AutoSize = true;
             this.Label_OutType.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.Label_OutType.Location = new System.Drawing.Point(208, 20);
+            this.Label_OutType.Location = new System.Drawing.Point(184, 20);
             this.Label_OutType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Label_OutType.Name = "Label_OutType";
             this.Label_OutType.Size = new System.Drawing.Size(61, 13);
