@@ -1,4 +1,4 @@
-# BRSTM-Encoder
-Multi Channel BRSTM Encoder
+# BxSTM-Encoder
+Multi Channel BxSTM Encoder
 
 Uses https://github.com/Thealexbarney/VGAudio.
