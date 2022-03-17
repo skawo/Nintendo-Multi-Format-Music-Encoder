@@ -24,6 +24,7 @@ namespace BRSTM_Encoder
         {
             InitializeComponent();
             Label_Status.Text = "Waiting for file...";
+            ComboOutType.SelectedIndex = 0;
         }
 
         private void Button_Open_Click(object sender, EventArgs e)

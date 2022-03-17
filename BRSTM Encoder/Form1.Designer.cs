@@ -167,6 +167,7 @@
             // 
             // ComboOutType
             // 
+            this.ComboOutType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboOutType.FormattingEnabled = true;
             this.ComboOutType.Items.AddRange(new object[] {
             "BRSTM",
@@ -176,7 +177,6 @@
             this.ComboOutType.Name = "ComboOutType";
             this.ComboOutType.Size = new System.Drawing.Size(121, 24);
             this.ComboOutType.TabIndex = 12;
-            this.ComboOutType.Text = "BRSTM";
             this.ComboOutType.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // Label_OutType
@@ -208,6 +208,7 @@
             this.Controls.Add(this.NumUpDown_LoopStart);
             this.Controls.Add(this.Button_Save);
             this.Controls.Add(this.Button_Open);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "BxSTM Encoder";
