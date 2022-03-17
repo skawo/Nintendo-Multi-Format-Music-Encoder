@@ -16,6 +16,9 @@ namespace BRSTM_Encoder
     public partial class Form1 : Form
     {
         VGAudio.Containers.AudioWithConfig Audio;
+        VGAudio.Containers.NintendoWare.NwTarget OutType = VGAudio.Containers.NintendoWare.NwTarget.Revolution;
+
+        string Filter = "BRSTM Files (*.brstm)|*.brstm|All files (*.*)|*.*";
 
         public Form1()
         {
@@ -69,7 +72,7 @@ namespace BRSTM_Encoder
                 File.Delete(Out);
 
             FileStream Stream = new FileStream(Out, FileMode.CreateNew);
-            VGAudio.Containers.NintendoWare.BrstmWriter Writer = new VGAudio.Containers.NintendoWare.BrstmWriter();
+            VGAudio.Containers.NintendoWare.BCFstmWriter Writer = new VGAudio.Containers.NintendoWare.BCFstmWriter(OutType);
 
             Writer.WriteToStream(Audio.AudioFormat.WithLoop(Loop, LoopSt, LoopEn == 0 ? Audio.AudioFormat.SampleCount : LoopEn), Stream, Audio.Configuration);
             Stream.Close();
@@ -86,13 +89,13 @@ namespace BRSTM_Encoder
                 }
 
                 SaveFileDialog Dialog = new SaveFileDialog();
-                Dialog.Filter = "BRSTM Files (*.brstm)|*.brstm|All files (*.*)|*.*";
+                Dialog.Filter = Filter;
                 Dialog.ShowDialog();
 
                 if (Dialog.FileName == "")
                     return;
 
-                Label_Status.Text = "Saving BRSTM...";
+                Label_Status.Text = "Saving...";
                 Label_Status.Update();
 
                 if (CheckBox_IsLooped.Checked && (int)NumUpDown_LoopStart.Value > (int)NumUpDown_LoopEnd.Value)
@@ -109,6 +112,33 @@ namespace BRSTM_Encoder
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (ComboOutType.SelectedIndex)
+            {
+                case 0:
+                    {
+                        Filter = "BRSTM Files (*.brstm)|*.brstm|All files (*.*)|*.*";
+                        OutType = VGAudio.Containers.NintendoWare.NwTarget.Revolution;
+                        break;
+                    }
+                case 1:
+                    {
+                        Filter = "BCSTM Files (*.bcstm)|*.bcstm|All files (*.*)|*.*";
+                        OutType = VGAudio.Containers.NintendoWare.NwTarget.Ctr; 
+                        break;
+                    }
+                case 2:
+                    {
+                        Filter = "BFSTM Files (*.bfstm)|*.bfstm|All files (*.*)|*.*";
+                        OutType = VGAudio.Containers.NintendoWare.NwTarget.Cafe;
+                        break;
+                    }
+            }
+
+            return;
         }
     }
 }
