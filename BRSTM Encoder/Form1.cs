@@ -75,6 +75,8 @@ namespace BRSTM_Encoder
             FileStream Stream = new FileStream(Out, FileMode.CreateNew);
             VGAudio.Containers.NintendoWare.BCFstmWriter Writer = new VGAudio.Containers.NintendoWare.BCFstmWriter(OutType);
 
+            Writer.Configuration.Version = new VGAudio.Containers.NintendoWare.NwVersion((byte)VerA.Value, (byte)VerB.Value, (byte)VerC.Value, (byte)VerD.Value);
+            
             Writer.WriteToStream(Audio.AudioFormat.WithLoop(Loop, LoopSt, LoopEn == 0 ? Audio.AudioFormat.SampleCount : LoopEn), Stream, Audio.Configuration);
             Stream.Close();
         }
