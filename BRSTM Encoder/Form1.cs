@@ -73,11 +73,20 @@ namespace BRSTM_Encoder
                 File.Delete(Out);
 
             FileStream Stream = new FileStream(Out, FileMode.CreateNew);
-            VGAudio.Containers.NintendoWare.BCFstmWriter Writer = new VGAudio.Containers.NintendoWare.BCFstmWriter(OutType);
 
-            Writer.Configuration.Version = new VGAudio.Containers.NintendoWare.NwVersion((byte)VerA.Value, (byte)VerB.Value, (byte)VerC.Value, (byte)VerD.Value);
-            
-            Writer.WriteToStream(Audio.AudioFormat.WithLoop(Loop, LoopSt, LoopEn == 0 ? Audio.AudioFormat.SampleCount : LoopEn), Stream, Audio.Configuration);
+            if (OutType == VGAudio.Containers.NintendoWare.NwTarget.Revolution)
+            {
+                VGAudio.Containers.NintendoWare.BrstmWriter brWriter = new VGAudio.Containers.NintendoWare.BrstmWriter();
+                brWriter.Configuration.Version = new VGAudio.Containers.NintendoWare.NwVersion((byte)VerA.Value, (byte)VerB.Value, (byte)VerC.Value, (byte)VerD.Value);
+                brWriter.WriteToStream(Audio.AudioFormat.WithLoop(Loop, LoopSt, LoopEn == 0 ? Audio.AudioFormat.SampleCount : LoopEn), Stream, Audio.Configuration);
+            }
+            else
+            {
+                VGAudio.Containers.NintendoWare.BCFstmWriter fcWriter = new VGAudio.Containers.NintendoWare.BCFstmWriter(OutType);
+                fcWriter.Configuration.Version = new VGAudio.Containers.NintendoWare.NwVersion((byte)VerA.Value, (byte)VerB.Value, (byte)VerC.Value, (byte)VerD.Value);
+                fcWriter.WriteToStream(Audio.AudioFormat.WithLoop(Loop, LoopSt, LoopEn == 0 ? Audio.AudioFormat.SampleCount : LoopEn), Stream, Audio.Configuration);
+            }
+
             Stream.Close();
         }
 
