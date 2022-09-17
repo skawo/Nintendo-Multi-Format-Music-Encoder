@@ -80,6 +80,11 @@
             // 
             this.NumUpDown_LoopStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.NumUpDown_LoopStart.Location = new System.Drawing.Point(75, 78);
+            this.NumUpDown_LoopStart.Maximum = new decimal(new int[] {
+            -1,
+            0,
+            0,
+            0});
             this.NumUpDown_LoopStart.Name = "NumUpDown_LoopStart";
             this.NumUpDown_LoopStart.Size = new System.Drawing.Size(223, 20);
             this.NumUpDown_LoopStart.TabIndex = 2;
@@ -88,6 +93,11 @@
             // 
             this.NumUpDown_LoopEnd.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.NumUpDown_LoopEnd.Location = new System.Drawing.Point(75, 103);
+            this.NumUpDown_LoopEnd.Maximum = new decimal(new int[] {
+            -1,
+            0,
+            0,
+            0});
             this.NumUpDown_LoopEnd.Name = "NumUpDown_LoopEnd";
             this.NumUpDown_LoopEnd.Size = new System.Drawing.Size(223, 20);
             this.NumUpDown_LoopEnd.TabIndex = 3;
@@ -172,7 +182,7 @@
             "BCSTM",
             "BFSTM"});
             this.ComboOutType.Location = new System.Drawing.Point(206, 12);
-            this.ComboOutType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ComboOutType.Margin = new System.Windows.Forms.Padding(2);
             this.ComboOutType.Name = "ComboOutType";
             this.ComboOutType.Size = new System.Drawing.Size(92, 21);
             this.ComboOutType.TabIndex = 12;
