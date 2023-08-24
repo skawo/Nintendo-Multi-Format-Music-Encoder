@@ -35,7 +35,7 @@
             this.Label_LoopStart = new System.Windows.Forms.Label();
             this.Label_LoopEnd = new System.Windows.Forms.Label();
             this.Label_Channels = new System.Windows.Forms.Label();
-            this.Label_Bitrate = new System.Windows.Forms.Label();
+            this.Label_SampleRate = new System.Windows.Forms.Label();
             this.Label_NumSamples = new System.Windows.Forms.Label();
             this.Label_Status = new System.Windows.Forms.Label();
             this.CheckBox_IsLooped = new System.Windows.Forms.CheckBox();
@@ -132,15 +132,15 @@
             this.Label_Channels.TabIndex = 6;
             this.Label_Channels.Text = "Channels detected:";
             // 
-            // Label_Bitrate
+            // Label_SampleRate
             // 
-            this.Label_Bitrate.AutoSize = true;
-            this.Label_Bitrate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.Label_Bitrate.Location = new System.Drawing.Point(12, 224);
-            this.Label_Bitrate.Name = "Label_Bitrate";
-            this.Label_Bitrate.Size = new System.Drawing.Size(40, 13);
-            this.Label_Bitrate.TabIndex = 7;
-            this.Label_Bitrate.Text = "Bitrate:";
+            this.Label_SampleRate.AutoSize = true;
+            this.Label_SampleRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.Label_SampleRate.Location = new System.Drawing.Point(12, 224);
+            this.Label_SampleRate.Name = "Label_SampleRate";
+            this.Label_SampleRate.Size = new System.Drawing.Size(40, 13);
+            this.Label_SampleRate.TabIndex = 7;
+            this.Label_SampleRate.Text = "Sample rate:";
             // 
             // Label_NumSamples
             // 
@@ -280,7 +280,7 @@
             this.Controls.Add(this.CheckBox_IsLooped);
             this.Controls.Add(this.Label_Status);
             this.Controls.Add(this.Label_NumSamples);
-            this.Controls.Add(this.Label_Bitrate);
+            this.Controls.Add(this.Label_SampleRate);
             this.Controls.Add(this.Label_Channels);
             this.Controls.Add(this.Label_LoopEnd);
             this.Controls.Add(this.Label_LoopStart);
@@ -311,7 +311,7 @@
         private System.Windows.Forms.Label Label_LoopStart;
         private System.Windows.Forms.Label Label_LoopEnd;
         private System.Windows.Forms.Label Label_Channels;
-        private System.Windows.Forms.Label Label_Bitrate;
+        private System.Windows.Forms.Label Label_SampleRate;
         private System.Windows.Forms.Label Label_NumSamples;
         private System.Windows.Forms.Label Label_Status;
         private System.Windows.Forms.CheckBox CheckBox_IsLooped;
