@@ -41,7 +41,7 @@ namespace BRSTM_Encoder
                 {
                     LoadFile(Dialog.FileName);
 
-                    Label_Bitrate.Text = "Bitrate: " + Audio.AudioFormat.SampleRate.ToString();
+                    Label_SampleRate.Text = "Sample rate: " + Audio.AudioFormat.SampleRate.ToString();
                     Label_Channels.Text = "Channels detected: " + Audio.AudioFormat.ChannelCount.ToString();
                     Label_NumSamples.Text = "Number of samples: " + Audio.AudioFormat.SampleCount.ToString();
 
