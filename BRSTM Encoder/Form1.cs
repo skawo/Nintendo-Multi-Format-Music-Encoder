@@ -16,7 +16,7 @@ namespace BRSTM_Encoder
     public partial class Form1 : Form
     {
         public VGAudio.Containers.AudioWithConfig Audio;
-        VGAudio.Containers.NintendoWare.NwTarget OutType = VGAudio.Containers.NintendoWare.NwTarget.Revolution;
+        public VGAudio.Containers.NintendoWare.NwTarget OutType = VGAudio.Containers.NintendoWare.NwTarget.Revolution;
 
         string Filter = "BRSTM Files (*.brstm)|*.brstm|All files (*.*)|*.*";
 
