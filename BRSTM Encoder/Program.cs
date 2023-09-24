@@ -33,9 +33,9 @@ namespace BRSTM_Encoder
                     Form1 f = new Form1();
                     f.LoadFile(args[0]);
 
-                    int LoopSt = 0;
-                    int LoopEn = 0;
-                    bool Loop = false;
+                    int LoopSt = f.Audio.AudioFormat.LoopStart;
+                    int LoopEn = f.Audio.AudioFormat.LoopEnd;
+                    bool Loop = f.Audio.AudioFormat.Looping;
 
 
                     if (args.Length >= 2)

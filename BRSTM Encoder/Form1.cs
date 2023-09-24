@@ -15,7 +15,7 @@ namespace BRSTM_Encoder
 {
     public partial class Form1 : Form
     {
-        VGAudio.Containers.AudioWithConfig Audio;
+        public VGAudio.Containers.AudioWithConfig Audio;
         VGAudio.Containers.NintendoWare.NwTarget OutType = VGAudio.Containers.NintendoWare.NwTarget.Revolution;
 
         string Filter = "BRSTM Files (*.brstm)|*.brstm|All files (*.*)|*.*";
@@ -30,7 +30,7 @@ namespace BRSTM_Encoder
         private void Button_Open_Click(object sender, EventArgs e)
         {
             OpenFileDialog Dialog = new OpenFileDialog();
-            Dialog.Filter = "WAV Files (*.wav)|*.wav|All files (*.*)|*.*";
+            Dialog.Filter = "WAV Files (*.wav)|*.wav|Nintendo Ware Sound Files (*.brstm,*.bcstm,*.bfstm)|*.brstm;*.bcstm;*.bfstm|All files (*.*)|*.*";
             Dialog.ShowDialog();
 
             if (Dialog.FileName == "")
@@ -45,10 +45,6 @@ namespace BRSTM_Encoder
                     Label_Channels.Text = "Channels detected: " + Audio.AudioFormat.ChannelCount.ToString();
                     Label_NumSamples.Text = "Number of samples: " + Audio.AudioFormat.SampleCount.ToString();
 
-                    NumUpDown_LoopStart.Value = 0;
-                    NumUpDown_LoopEnd.Value = 0;
-                    NumUpDown_LoopStart.Maximum = Audio.AudioFormat.SampleCount;
-                    NumUpDown_LoopEnd.Maximum = Audio.AudioFormat.SampleCount;
 
                     Label_Status.Text = "Ready...";
                 }
@@ -63,8 +59,32 @@ namespace BRSTM_Encoder
         {
             byte[] OpenedWAVFile = File.ReadAllBytes(FileName);
 
-            VGAudio.Containers.Wave.WaveReader Reader = new VGAudio.Containers.Wave.WaveReader();
-            Audio = Reader.ReadWithConfig(OpenedWAVFile);
+            switch (Path.GetExtension(FileName))
+            {
+                case ".brstm":
+                    {
+                        VGAudio.Containers.NintendoWare.BrstmReader reader = new VGAudio.Containers.NintendoWare.BrstmReader();
+                        Audio = reader.ReadWithConfig(OpenedWAVFile);
+                        break;
+                    }
+                case ".bfstm":
+                    {
+                        VGAudio.Containers.NintendoWare.BCFstmReader reader = new VGAudio.Containers.NintendoWare.BCFstmReader();
+                        Audio = reader.ReadWithConfig(OpenedWAVFile);
+                        break;
+                    }
+                default:
+                    {
+                        VGAudio.Containers.Wave.WaveReader Reader = new VGAudio.Containers.Wave.WaveReader();
+                        Audio = Reader.ReadWithConfig(OpenedWAVFile);
+                        break;
+                    }
+            }
+
+            NumUpDown_LoopStart.Value = Audio.AudioFormat.LoopStart;
+            NumUpDown_LoopEnd.Value = Audio.AudioFormat.LoopEnd;
+            NumUpDown_LoopStart.Maximum = Audio.AudioFormat.SampleCount;
+            NumUpDown_LoopEnd.Maximum = Audio.AudioFormat.SampleCount;
         }
 
         public void Convert(int LoopSt, int LoopEn, bool Loop, string Out)

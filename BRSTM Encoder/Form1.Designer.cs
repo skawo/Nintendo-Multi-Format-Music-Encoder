@@ -61,7 +61,7 @@
             this.Button_Open.Name = "Button_Open";
             this.Button_Open.Size = new System.Drawing.Size(120, 47);
             this.Button_Open.TabIndex = 0;
-            this.Button_Open.Text = "Open WAV...";
+            this.Button_Open.Text = "Open File...";
             this.Button_Open.UseVisualStyleBackColor = true;
             this.Button_Open.Click += new System.EventHandler(this.Button_Open_Click);
             // 
