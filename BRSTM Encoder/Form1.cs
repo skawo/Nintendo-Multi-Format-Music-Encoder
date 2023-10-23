@@ -69,6 +69,8 @@ namespace NMFME
                         VGAudio.Containers.NintendoWare.BrstmReader reader = new VGAudio.Containers.NintendoWare.BrstmReader();
                         Audio = reader.ReadWithConfig(OpenedWAVFile);
 
+                        NumUpDown_LoopStart.Maximum = Audio.AudioFormat.SampleCount;
+                        NumUpDown_LoopEnd.Maximum = Audio.AudioFormat.SampleCount;
                         NumUpDown_LoopStart.Value = Audio.AudioFormat.LoopStart;
                         NumUpDown_LoopEnd.Value = Audio.AudioFormat.LoopEnd;
 
@@ -79,6 +81,8 @@ namespace NMFME
                         VGAudio.Containers.NintendoWare.BCFstmReader reader = new VGAudio.Containers.NintendoWare.BCFstmReader();
                         Audio = reader.ReadWithConfig(OpenedWAVFile);
 
+                        NumUpDown_LoopStart.Maximum = Audio.AudioFormat.SampleCount;
+                        NumUpDown_LoopEnd.Maximum = Audio.AudioFormat.SampleCount;
                         NumUpDown_LoopStart.Value = Audio.AudioFormat.LoopStart;
                         NumUpDown_LoopEnd.Value = Audio.AudioFormat.LoopEnd;
 
@@ -96,10 +100,10 @@ namespace NMFME
                         VGAudio.Containers.Wave.WaveReader Reader = new VGAudio.Containers.Wave.WaveReader();
                         Audio = Reader.ReadWithConfig(OpenedWAVFile);
 
-                        NumUpDown_LoopStart.Value = LoopSt;
-                        NumUpDown_LoopEnd.Value = LoopEn;
                         NumUpDown_LoopStart.Maximum = Audio.AudioFormat.SampleCount;
                         NumUpDown_LoopEnd.Maximum = Audio.AudioFormat.SampleCount;
+                        NumUpDown_LoopStart.Value = LoopSt;
+                        NumUpDown_LoopEnd.Value = LoopEn;
 
                         return;
                     }
@@ -108,15 +112,14 @@ namespace NMFME
                         VGAudio.Containers.Wave.WaveReader Reader = new VGAudio.Containers.Wave.WaveReader();
                         Audio = Reader.ReadWithConfig(OpenedWAVFile);
 
+                        NumUpDown_LoopStart.Maximum = Audio.AudioFormat.SampleCount;
+                        NumUpDown_LoopEnd.Maximum = Audio.AudioFormat.SampleCount;
                         NumUpDown_LoopStart.Value = Audio.AudioFormat.LoopStart;
                         NumUpDown_LoopEnd.Value = Audio.AudioFormat.SampleCount;
 
                         break;
                     }
             }
-
-            NumUpDown_LoopStart.Maximum = Audio.AudioFormat.SampleCount;
-            NumUpDown_LoopEnd.Maximum = Audio.AudioFormat.SampleCount;
         }
 
         public void Convert(int LoopSt, int LoopEn, bool Loop, string Out)
