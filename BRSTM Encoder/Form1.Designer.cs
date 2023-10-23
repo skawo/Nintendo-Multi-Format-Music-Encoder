@@ -1,4 +1,4 @@
-﻿namespace BRSTM_Encoder
+﻿namespace NMFME
 {
     partial class Form1
     {
@@ -138,7 +138,7 @@
             this.Label_SampleRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.Label_SampleRate.Location = new System.Drawing.Point(12, 224);
             this.Label_SampleRate.Name = "Label_SampleRate";
-            this.Label_SampleRate.Size = new System.Drawing.Size(40, 13);
+            this.Label_SampleRate.Size = new System.Drawing.Size(66, 13);
             this.Label_SampleRate.TabIndex = 7;
             this.Label_SampleRate.Text = "Sample rate:";
             // 
@@ -180,7 +180,8 @@
             this.ComboOutType.Items.AddRange(new object[] {
             "BRSTM",
             "BCSTM",
-            "BFSTM"});
+            "BFSTM",
+            "BWAV"});
             this.ComboOutType.Location = new System.Drawing.Point(206, 12);
             this.ComboOutType.Margin = new System.Windows.Forms.Padding(2);
             this.ComboOutType.Name = "ComboOutType";
@@ -290,7 +291,7 @@
             this.Controls.Add(this.Button_Open);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Form1";
-            this.Text = "BxSTM Encoder";
+            this.Text = "Nintendo Multi-Format Music Encoder";
             ((System.ComponentModel.ISupportInitialize)(this.NumUpDown_LoopStart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumUpDown_LoopEnd)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.VerA)).EndInit();

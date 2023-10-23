@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
-namespace BRSTM_Encoder
+namespace NMFME
 {
 
     static class Program
@@ -13,6 +13,7 @@ namespace BRSTM_Encoder
         [DllImport("kernel32.dll")]
         static extern bool AttachConsole(int dwProcessId);
         private const int ATTACH_PARENT_PROCESS = -1;
+        public static string ExecPath = "";
 
         /// <summary>
         /// The main entry point for the application.
@@ -22,6 +23,8 @@ namespace BRSTM_Encoder
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            Program.ExecPath = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
 
             if (args.Length == 0)
                 Application.Run(new Form1());
@@ -48,6 +51,7 @@ namespace BRSTM_Encoder
                         case "BRSTM": f.OutType = VGAudio.Containers.NintendoWare.NwTarget.Revolution; Extension = "brstm";  break;
                         case "BCSTM": f.OutType = VGAudio.Containers.NintendoWare.NwTarget.Ctr; Extension = "bcstm"; break;
                         case "BFSTM": f.OutType = VGAudio.Containers.NintendoWare.NwTarget.Cafe; Extension = "bfstm"; break;
+                        case "BWAV": f.OutType = "BWAV"; Extension = "bwav"; break;
                         default:
                             {
                                 PrintUsage();

@@ -11,14 +11,16 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-namespace BRSTM_Encoder
+namespace NMFME
 {
     public partial class Form1 : Form
     {
         public VGAudio.Containers.AudioWithConfig Audio;
-        public VGAudio.Containers.NintendoWare.NwTarget OutType = VGAudio.Containers.NintendoWare.NwTarget.Revolution;
+        public object OutType = VGAudio.Containers.NintendoWare.NwTarget.Revolution;
 
         string Filter = "BRSTM Files (*.brstm)|*.brstm|All files (*.*)|*.*";
+        string FileName = "";
+        string TempFileName = Path.Combine(Program.ExecPath, "temp.wav");
 
         public Form1()
         {
@@ -30,7 +32,7 @@ namespace BRSTM_Encoder
         private void Button_Open_Click(object sender, EventArgs e)
         {
             OpenFileDialog Dialog = new OpenFileDialog();
-            Dialog.Filter = "WAV Files (*.wav)|*.wav|Nintendo Ware Sound Files (*.brstm,*.bcstm,*.bfstm)|*.brstm;*.bcstm;*.bfstm|All files (*.*)|*.*";
+            Dialog.Filter = "All Supported (*.wav, *.brstm,*.bcstm,*.bfstm, *.bwav)|*.wav;*.brstm;*.bcstm;*.bfstm;*.bwav|WAV Files (*.wav)|*.wav|Nintendo Ware Sound Files (*.brstm,*.bcstm,*.bfstm)|*.brstm;*.bcstm;*.bfstm|BWAV (*.bwav)|*.bwav|All files (*.*)|*.*";
             Dialog.ShowDialog();
 
             if (Dialog.FileName == "")
@@ -39,6 +41,7 @@ namespace BRSTM_Encoder
             {
                 try
                 {
+                    FileName = Dialog.FileName;
                     LoadFile(Dialog.FileName);
 
                     Label_SampleRate.Text = "Sample rate: " + Audio.AudioFormat.SampleRate.ToString();
@@ -65,24 +68,53 @@ namespace BRSTM_Encoder
                     {
                         VGAudio.Containers.NintendoWare.BrstmReader reader = new VGAudio.Containers.NintendoWare.BrstmReader();
                         Audio = reader.ReadWithConfig(OpenedWAVFile);
+
+                        NumUpDown_LoopStart.Value = Audio.AudioFormat.LoopStart;
+                        NumUpDown_LoopEnd.Value = Audio.AudioFormat.LoopEnd;
+
                         break;
                     }
                 case ".bfstm":
                     {
                         VGAudio.Containers.NintendoWare.BCFstmReader reader = new VGAudio.Containers.NintendoWare.BCFstmReader();
                         Audio = reader.ReadWithConfig(OpenedWAVFile);
+
+                        NumUpDown_LoopStart.Value = Audio.AudioFormat.LoopStart;
+                        NumUpDown_LoopEnd.Value = Audio.AudioFormat.LoopEnd;
+
                         break;
+                    }
+                case ".bwav":
+                    {
+                        bool Loop = false;
+                        int LoopSt = 0;
+                        int LoopEn = 0;
+
+                        OpenRevolution.BWAV2WAV(FileName, TempFileName, out Loop, out LoopSt, out LoopEn);
+                        FileName = TempFileName;
+                        OpenedWAVFile = File.ReadAllBytes(TempFileName);
+                        VGAudio.Containers.Wave.WaveReader Reader = new VGAudio.Containers.Wave.WaveReader();
+                        Audio = Reader.ReadWithConfig(OpenedWAVFile);
+
+                        NumUpDown_LoopStart.Value = LoopSt;
+                        NumUpDown_LoopEnd.Value = LoopEn;
+                        NumUpDown_LoopStart.Maximum = Audio.AudioFormat.SampleCount;
+                        NumUpDown_LoopEnd.Maximum = Audio.AudioFormat.SampleCount;
+
+                        return;
                     }
                 default:
                     {
                         VGAudio.Containers.Wave.WaveReader Reader = new VGAudio.Containers.Wave.WaveReader();
                         Audio = Reader.ReadWithConfig(OpenedWAVFile);
+
+                        NumUpDown_LoopStart.Value = Audio.AudioFormat.LoopStart;
+                        NumUpDown_LoopEnd.Value = Audio.AudioFormat.SampleCount;
+
                         break;
                     }
             }
 
-            NumUpDown_LoopStart.Value = Audio.AudioFormat.LoopStart;
-            NumUpDown_LoopEnd.Value = Audio.AudioFormat.LoopEnd;
             NumUpDown_LoopStart.Maximum = Audio.AudioFormat.SampleCount;
             NumUpDown_LoopEnd.Maximum = Audio.AudioFormat.SampleCount;
         }
@@ -92,22 +124,42 @@ namespace BRSTM_Encoder
             if (File.Exists(Out))
                 File.Delete(Out);
 
-            FileStream Stream = new FileStream(Out, FileMode.CreateNew);
+           
 
-            if (OutType == VGAudio.Containers.NintendoWare.NwTarget.Revolution)
+            if (OutType is VGAudio.Containers.NintendoWare.NwTarget)
             {
-                VGAudio.Containers.NintendoWare.BrstmWriter brWriter = new VGAudio.Containers.NintendoWare.BrstmWriter();
-                brWriter.Configuration.Version = new VGAudio.Containers.NintendoWare.NwVersion((byte)VerA.Value, (byte)VerB.Value, (byte)VerC.Value, (byte)VerD.Value);
-                brWriter.WriteToStream(Audio.AudioFormat.WithLoop(Loop, LoopSt, LoopEn == 0 ? Audio.AudioFormat.SampleCount : LoopEn), Stream, Audio.Configuration);
+                FileStream Stream = new FileStream(Out, FileMode.CreateNew);
+
+                VGAudio.Containers.NintendoWare.NwTarget NwTargetOutType = (VGAudio.Containers.NintendoWare.NwTarget)OutType;
+
+                if (NwTargetOutType == VGAudio.Containers.NintendoWare.NwTarget.Revolution)
+                {
+                    VGAudio.Containers.NintendoWare.BrstmWriter brWriter = new VGAudio.Containers.NintendoWare.BrstmWriter();
+                    brWriter.Configuration.Version = new VGAudio.Containers.NintendoWare.NwVersion((byte)VerA.Value, (byte)VerB.Value, (byte)VerC.Value, (byte)VerD.Value);
+                    brWriter.WriteToStream(Audio.AudioFormat.WithLoop(Loop, LoopSt, LoopEn == 0 ? Audio.AudioFormat.SampleCount : LoopEn), Stream, Audio.Configuration);
+                }
+                else
+                {
+                    VGAudio.Containers.NintendoWare.BCFstmWriter fcWriter = new VGAudio.Containers.NintendoWare.BCFstmWriter(NwTargetOutType);
+                    fcWriter.Configuration.Version = new VGAudio.Containers.NintendoWare.NwVersion((byte)VerA.Value, (byte)VerB.Value, (byte)VerC.Value, (byte)VerD.Value);
+                    fcWriter.WriteToStream(Audio.AudioFormat.WithLoop(Loop, LoopSt, LoopEn == 0 ? Audio.AudioFormat.SampleCount : LoopEn), Stream, Audio.Configuration);
+                }
+
+                Stream.Close();
             }
             else
             {
-                VGAudio.Containers.NintendoWare.BCFstmWriter fcWriter = new VGAudio.Containers.NintendoWare.BCFstmWriter(OutType);
-                fcWriter.Configuration.Version = new VGAudio.Containers.NintendoWare.NwVersion((byte)VerA.Value, (byte)VerB.Value, (byte)VerC.Value, (byte)VerD.Value);
-                fcWriter.WriteToStream(Audio.AudioFormat.WithLoop(Loop, LoopSt, LoopEn == 0 ? Audio.AudioFormat.SampleCount : LoopEn), Stream, Audio.Configuration);
-            }
+                string sOutType = (string)OutType;
 
-            Stream.Close();
+                switch (sOutType)
+                {
+                    case "BWAV":
+                        {
+                            OpenRevolution.WAV2BWAV(FileName, Out, Loop, LoopSt, LoopEn);
+                            break;
+                        }
+                }
+            }
         }
 
         private void Button_Save_Click(object sender, EventArgs e)
@@ -166,6 +218,12 @@ namespace BRSTM_Encoder
                     {
                         Filter = "BFSTM Files (*.bfstm)|*.bfstm|All files (*.*)|*.*";
                         OutType = VGAudio.Containers.NintendoWare.NwTarget.Cafe;
+                        break;
+                    }
+                case 3:
+                    {
+                        Filter = "BWAV Files (*.bwav)|*.bwav|All files (*.*)|*.*";
+                        OutType = "BWAV";
                         break;
                     }
             }
