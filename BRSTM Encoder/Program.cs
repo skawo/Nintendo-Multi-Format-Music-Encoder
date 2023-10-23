@@ -97,8 +97,8 @@ namespace NMFME
         public static void PrintUsage()
         {
             Console.WriteLine("");
-            Console.WriteLine("BxSTM Encoder v. 1.7 by Skawo");
-            Console.WriteLine("Usage: BxSTMEncoder.exe infile outfile_type(BRSTM|BCSTM|BFSTM) loopStart loopEnd");
+            Console.WriteLine("Nintendo Multi-Format Music Encoder v. 2.0.2 by Skawo");
+            Console.WriteLine("Usage: NMFME.exe infile outfile_type(BRSTM|BCSTM|BFSTM|BWAV) loopStart loopEnd");
         }
     }
 }
