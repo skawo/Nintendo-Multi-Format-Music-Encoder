@@ -1,4 +1,8 @@
-# BxSTM-Encoder
-Multi Channel BxSTM Encoder
+# Nintendo Multi-Format Music Encoder
 
-Uses https://github.com/Thealexbarney/VGAudio.
+- Can operate on BRSTM, BCSTM, BFSTM and BWAV files.
+- Multi-channel support
+- Loop point support
+
+
+Uses https://github.com/Thealexbarney/VGAudio and https://github.com/ic-scm/openrevolution
