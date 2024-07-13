@@ -5,4 +5,4 @@
 - Loop point support
 
 
-Uses https://github.com/Thealexbarney/VGAudio and https://github.com/ic-scm/openrevolution
+Uses https://github.com/naudio/NAudio, https://github.com/Thealexbarney/VGAudio and https://github.com/ic-scm/openrevolution
