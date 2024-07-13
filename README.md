@@ -1,6 +1,6 @@
 # Nintendo Multi-Format Music Encoder
 
-- Can operate on BRSTM, BCSTM, BFSTM and BWAV files.
+- Can operate on WAV, BRSTM, BCSTM, BFSTM and BWAV files.
 - Multi-channel support
 - Loop point support
 
