@@ -102,7 +102,7 @@ namespace NMFME
         public static void PrintUsage()
         {
             Console.WriteLine("");
-            Console.WriteLine("Nintendo Multi-Format Music Encoder v. 2.0.2 by Skawo");
+            Console.WriteLine("Nintendo Multi-Format Music Encoder v. 2.0.4 by Skawo");
             Console.WriteLine("Usage: NMFME.exe infile outfile_type(BRSTM|BCSTM|BFSTM|BWAV) volume_change loopStart loopEnd");
         }
     }
