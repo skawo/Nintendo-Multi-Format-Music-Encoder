@@ -46,12 +46,15 @@
             this.VerB = new System.Windows.Forms.NumericUpDown();
             this.VerC = new System.Windows.Forms.NumericUpDown();
             this.VerD = new System.Windows.Forms.NumericUpDown();
+            this.Lbl_Volume = new System.Windows.Forms.Label();
+            this.NumUp_Volume = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.NumUpDown_LoopStart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumUpDown_LoopEnd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.VerA)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.VerB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.VerC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.VerD)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumUp_Volume)).BeginInit();
             this.SuspendLayout();
             // 
             // Button_Open
@@ -155,7 +158,7 @@
             // Label_Status
             // 
             this.Label_Status.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.Label_Status.Location = new System.Drawing.Point(13, 299);
+            this.Label_Status.Location = new System.Drawing.Point(12, 299);
             this.Label_Status.Name = "Label_Status";
             this.Label_Status.Size = new System.Drawing.Size(285, 13);
             this.Label_Status.TabIndex = 10;
@@ -181,7 +184,8 @@
             "BRSTM",
             "BCSTM",
             "BFSTM",
-            "BWAV"});
+            "BWAV",
+            "WAV"});
             this.ComboOutType.Location = new System.Drawing.Point(206, 12);
             this.ComboOutType.Margin = new System.Windows.Forms.Padding(2);
             this.ComboOutType.Name = "ComboOutType";
@@ -266,11 +270,42 @@
             this.VerD.Size = new System.Drawing.Size(39, 20);
             this.VerD.TabIndex = 18;
             // 
+            // Lbl_Volume
+            // 
+            this.Lbl_Volume.AutoSize = true;
+            this.Lbl_Volume.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.Lbl_Volume.Location = new System.Drawing.Point(12, 247);
+            this.Lbl_Volume.Name = "Lbl_Volume";
+            this.Lbl_Volume.Size = new System.Drawing.Size(45, 13);
+            this.Lbl_Volume.TabIndex = 20;
+            this.Lbl_Volume.Text = "Volume:";
+            // 
+            // NumUp_Volume
+            // 
+            this.NumUp_Volume.DecimalPlaces = 3;
+            this.NumUp_Volume.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.NumUp_Volume.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.NumUp_Volume.Location = new System.Drawing.Point(72, 245);
+            this.NumUp_Volume.Name = "NumUp_Volume";
+            this.NumUp_Volume.Size = new System.Drawing.Size(60, 20);
+            this.NumUp_Volume.TabIndex = 21;
+            this.NumUp_Volume.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(309, 324);
+            this.Controls.Add(this.NumUp_Volume);
+            this.Controls.Add(this.Lbl_Volume);
             this.Controls.Add(this.VerD);
             this.Controls.Add(this.VerC);
             this.Controls.Add(this.VerB);
@@ -298,6 +333,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.VerB)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.VerC)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.VerD)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumUp_Volume)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -323,6 +359,8 @@
         private System.Windows.Forms.NumericUpDown VerB;
         private System.Windows.Forms.NumericUpDown VerC;
         private System.Windows.Forms.NumericUpDown VerD;
+        private System.Windows.Forms.Label Lbl_Volume;
+        private System.Windows.Forms.NumericUpDown NumUp_Volume;
     }
 }
 

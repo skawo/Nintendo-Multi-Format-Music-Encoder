@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
+using NAudio.Wave;
 
 namespace NMFME
 {
@@ -21,6 +22,7 @@ namespace NMFME
         string Filter = "BRSTM Files (*.brstm)|*.brstm|All files (*.*)|*.*";
         string FileName = "";
         string TempFileName = Path.Combine(Program.ExecPath, "temp.wav");
+        string TempVolFileName = Path.Combine(Program.ExecPath, "tempVol.wav");
 
         public Form1()
         {
@@ -58,21 +60,25 @@ namespace NMFME
             }
         }
 
-        public void LoadFile(string FileName)
+        public void LoadFile(string fln, bool setLoops = true)
         {
-            byte[] OpenedWAVFile = File.ReadAllBytes(FileName);
+            byte[] OpenedWAVFile = File.ReadAllBytes(fln);
+            FileName = fln;
 
-            switch (Path.GetExtension(FileName))
+            switch (Path.GetExtension(fln))
             {
                 case ".brstm":
                     {
                         VGAudio.Containers.NintendoWare.BrstmReader reader = new VGAudio.Containers.NintendoWare.BrstmReader();
                         Audio = reader.ReadWithConfig(OpenedWAVFile);
 
-                        NumUpDown_LoopStart.Maximum = Audio.AudioFormat.SampleCount;
-                        NumUpDown_LoopEnd.Maximum = Audio.AudioFormat.SampleCount;
-                        NumUpDown_LoopStart.Value = Audio.AudioFormat.LoopStart;
-                        NumUpDown_LoopEnd.Value = Audio.AudioFormat.LoopEnd;
+                        if (setLoops)
+                        {
+                            NumUpDown_LoopStart.Maximum = Audio.AudioFormat.SampleCount;
+                            NumUpDown_LoopEnd.Maximum = Audio.AudioFormat.SampleCount;
+                            NumUpDown_LoopStart.Value = Audio.AudioFormat.LoopStart;
+                            NumUpDown_LoopEnd.Value = Audio.AudioFormat.LoopEnd;
+                        }
 
                         break;
                     }
@@ -81,10 +87,13 @@ namespace NMFME
                         VGAudio.Containers.NintendoWare.BCFstmReader reader = new VGAudio.Containers.NintendoWare.BCFstmReader();
                         Audio = reader.ReadWithConfig(OpenedWAVFile);
 
-                        NumUpDown_LoopStart.Maximum = Audio.AudioFormat.SampleCount;
-                        NumUpDown_LoopEnd.Maximum = Audio.AudioFormat.SampleCount;
-                        NumUpDown_LoopStart.Value = Audio.AudioFormat.LoopStart;
-                        NumUpDown_LoopEnd.Value = Audio.AudioFormat.LoopEnd;
+                        if (setLoops)
+                        {
+                            NumUpDown_LoopStart.Maximum = Audio.AudioFormat.SampleCount;
+                            NumUpDown_LoopEnd.Maximum = Audio.AudioFormat.SampleCount;
+                            NumUpDown_LoopStart.Value = Audio.AudioFormat.LoopStart;
+                            NumUpDown_LoopEnd.Value = Audio.AudioFormat.LoopEnd;
+                        }
 
                         break;
                     }
@@ -94,16 +103,19 @@ namespace NMFME
                         int LoopSt = 0;
                         int LoopEn = 0;
 
-                        OpenRevolution.BWAV2WAV(FileName, TempFileName, out Loop, out LoopSt, out LoopEn);
-                        FileName = TempFileName;
+                        OpenRevolution.BWAV2WAV(fln, TempFileName, out Loop, out LoopSt, out LoopEn);
+                        fln = TempFileName;
                         OpenedWAVFile = File.ReadAllBytes(TempFileName);
                         VGAudio.Containers.Wave.WaveReader Reader = new VGAudio.Containers.Wave.WaveReader();
                         Audio = Reader.ReadWithConfig(OpenedWAVFile);
 
-                        NumUpDown_LoopStart.Maximum = Audio.AudioFormat.SampleCount;
-                        NumUpDown_LoopEnd.Maximum = Audio.AudioFormat.SampleCount;
-                        NumUpDown_LoopStart.Value = LoopSt;
-                        NumUpDown_LoopEnd.Value = LoopEn;
+                        if (setLoops)
+                        {
+                            NumUpDown_LoopStart.Maximum = Audio.AudioFormat.SampleCount;
+                            NumUpDown_LoopEnd.Maximum = Audio.AudioFormat.SampleCount;
+                            NumUpDown_LoopStart.Value = LoopSt;
+                            NumUpDown_LoopEnd.Value = LoopEn;
+                        }
 
                         return;
                     }
@@ -112,22 +124,85 @@ namespace NMFME
                         VGAudio.Containers.Wave.WaveReader Reader = new VGAudio.Containers.Wave.WaveReader();
                         Audio = Reader.ReadWithConfig(OpenedWAVFile);
 
-                        NumUpDown_LoopStart.Maximum = Audio.AudioFormat.SampleCount;
-                        NumUpDown_LoopEnd.Maximum = Audio.AudioFormat.SampleCount;
-                        NumUpDown_LoopStart.Value = Audio.AudioFormat.LoopStart;
-                        NumUpDown_LoopEnd.Value = Audio.AudioFormat.SampleCount;
+                        if (setLoops)
+                        {
+                            NumUpDown_LoopStart.Maximum = Audio.AudioFormat.SampleCount;
+                            NumUpDown_LoopEnd.Maximum = Audio.AudioFormat.SampleCount;
+                            NumUpDown_LoopStart.Value = Audio.AudioFormat.LoopStart;
+                            NumUpDown_LoopEnd.Value = Audio.AudioFormat.SampleCount;
+                        }
 
                         break;
                     }
             }
         }
 
-        public void Convert(int LoopSt, int LoopEn, bool Loop, string Out)
+        public void ChangeVolume(string wavFilePath, float Volume)
+        {
+            var wave = new NAudio.Wave.WaveFileReader(wavFilePath);
+
+            float[] samples = new float[wave.SampleCount * Audio.AudioFormat.ChannelCount];
+            var a = wave.ReadNextSampleFrame();
+            int i = 0;
+            while (a != null)
+            {
+                for (int j = 0; j < Audio.AudioFormat.ChannelCount; j++)
+                {
+                    samples[i] = a[j] * Volume;
+                    i++;
+                }
+                a = wave.ReadNextSampleFrame();
+            }
+
+
+            //create the new .wav with the samples modified
+            WaveFormat waveFormat = new WaveFormat(Audio.AudioFormat.SampleRate, 16, Audio.AudioFormat.ChannelCount);
+   
+            wave.Dispose();
+
+            if (File.Exists(wavFilePath))
+                File.Delete(wavFilePath);
+
+            WaveFileWriter writer = new WaveFileWriter(wavFilePath, waveFormat);
+            for (int u = 0; u < i; u++)
+            {
+                writer.WriteSample(samples[u]);
+            }
+            writer.Dispose();
+
+            if ((OutType as string) == "BWAV")
+            {
+                byte[] sigh = File.ReadAllBytes(wavFilePath);
+                sigh[0x10] = 16;
+                File.WriteAllBytes(wavFilePath, sigh);
+            }
+        }
+
+        public void Convert(float Volume, int LoopSt, int LoopEn, bool Loop, string Out)
         {
             if (File.Exists(Out))
                 File.Delete(Out);
 
-           
+
+            if (Volume != 1.0f)
+            {
+                if (File.Exists(TempVolFileName))
+                    File.Delete(TempVolFileName);
+
+                FileStream Stream = new FileStream(TempVolFileName, FileMode.CreateNew);
+
+                VGAudio.Containers.Wave.WaveWriter wv = new VGAudio.Containers.Wave.WaveWriter();
+                wv.WriteToStream(Audio.Audio, Stream, Audio.Configuration);
+
+                Stream.Close();
+
+                ChangeVolume(TempVolFileName, Volume);
+
+                if ((OutType as string) != "BWAV")
+                    LoadFile(TempVolFileName, false);
+
+                FileName = TempVolFileName;
+            }
 
             if (OutType is VGAudio.Containers.NintendoWare.NwTarget)
             {
@@ -150,19 +225,23 @@ namespace NMFME
 
                 Stream.Close();
             }
+            else if ((OutType as string) == "BWAV") 
+            {
+                OpenRevolution.WAV2BWAV(FileName, Out, Loop, LoopSt, LoopEn);
+            }
             else
             {
-                string sOutType = (string)OutType;
+                FileStream Stream = new FileStream(Out, FileMode.CreateNew);
 
-                switch (sOutType)
-                {
-                    case "BWAV":
-                        {
-                            OpenRevolution.WAV2BWAV(FileName, Out, Loop, LoopSt, LoopEn);
-                            break;
-                        }
-                }
+                VGAudio.Containers.Wave.WaveWriter wv = new VGAudio.Containers.Wave.WaveWriter();
+                wv.WriteToStream(Audio.Audio, Stream, Audio.Configuration);
+
+                Stream.Close();
             }
+
+
+            if (File.Exists(TempVolFileName))
+                File.Delete(TempVolFileName);
         }
 
         private void Button_Save_Click(object sender, EventArgs e)
@@ -191,7 +270,7 @@ namespace NMFME
                     return;
                 }
 
-                Convert((int)NumUpDown_LoopStart.Value, (int)NumUpDown_LoopEnd.Value, CheckBox_IsLooped.Checked, Dialog.FileName);
+                Convert((float)NumUp_Volume.Value, (int)NumUpDown_LoopStart.Value, (int)NumUpDown_LoopEnd.Value, CheckBox_IsLooped.Checked, Dialog.FileName);
 
                 Label_Status.Text = "Done!";
             }
@@ -229,9 +308,20 @@ namespace NMFME
                         OutType = "BWAV";
                         break;
                     }
+                case 4:
+                    {
+                        Filter = "WAV Files (*.wav)|*.wav|All files (*.*)|*.*";
+                        OutType = "WAV";
+                        break;
+                    }
             }
 
             return;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

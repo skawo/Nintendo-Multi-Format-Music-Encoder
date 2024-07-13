@@ -52,6 +52,7 @@ namespace NMFME
                         case "BCSTM": f.OutType = VGAudio.Containers.NintendoWare.NwTarget.Ctr; Extension = "bcstm"; break;
                         case "BFSTM": f.OutType = VGAudio.Containers.NintendoWare.NwTarget.Cafe; Extension = "bfstm"; break;
                         case "BWAV": f.OutType = "BWAV"; Extension = "bwav"; break;
+                        case "WAV": f.OutType = "WAV"; Extension = "wav"; break;
                         default:
                             {
                                 PrintUsage();
@@ -62,14 +63,18 @@ namespace NMFME
                     int LoopSt = f.Audio.AudioFormat.LoopStart;
                     int LoopEn = f.Audio.AudioFormat.LoopEnd;
                     bool Loop = f.Audio.AudioFormat.Looping;
+                    float Volume = 1.0f;
 
 
                     if (args.Length >= 3)
-                        LoopSt = Convert.ToInt32(args[2]);
+                        Volume = (float)Convert.ToDecimal(args[2]);
 
                     if (args.Length >= 4)
+                        LoopSt = Convert.ToInt32(args[3]);
+
+                    if (args.Length >= 5)
                     {
-                        LoopEn = Convert.ToInt32(args[3]);
+                        LoopEn = Convert.ToInt32(args[4]);
                         Loop = true;
                     }
 
@@ -82,7 +87,7 @@ namespace NMFME
                         return -1;
                     }
 
-                    f.Convert(LoopSt, LoopEn, Loop, $"{args[0].Replace(".wav", "")}_out." + Extension);
+                    f.Convert(Volume, LoopSt, LoopEn, Loop, $"{args[0].Replace(".wav", "")}_out." + Extension);
                     Console.WriteLine("Done!");
                 }
                 catch (Exception ex)
@@ -98,7 +103,7 @@ namespace NMFME
         {
             Console.WriteLine("");
             Console.WriteLine("Nintendo Multi-Format Music Encoder v. 2.0.2 by Skawo");
-            Console.WriteLine("Usage: NMFME.exe infile outfile_type(BRSTM|BCSTM|BFSTM|BWAV) loopStart loopEnd");
+            Console.WriteLine("Usage: NMFME.exe infile outfile_type(BRSTM|BCSTM|BFSTM|BWAV) volume_change loopStart loopEnd");
         }
     }
 }
