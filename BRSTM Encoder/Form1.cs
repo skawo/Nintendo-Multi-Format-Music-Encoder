@@ -169,7 +169,8 @@ namespace NMFME
                 writer.WriteSample(samples[u]);
             }
             writer.Dispose();
-
+            
+            // Stop BWAV converter from having an aneurysm (fmt must be 16 for it to accept the wav)
             if ((OutType as string) == "BWAV")
             {
                 byte[] sigh = File.ReadAllBytes(wavFilePath);
